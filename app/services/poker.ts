@@ -1,4 +1,4 @@
-const pocker = (hands) => {
+export const pocker = (hands) => {
   const roleRansks = [
     'ロイヤルフラッシュ',
     'ストレートフラッシュ',
@@ -286,8 +286,8 @@ const pocker = (hands) => {
  
  // console.log('---orderRanks', orderRanks);
  // ßconsole.log('---sortedResults', sortedResults);
- console.log('---outputReslt', outputReslt, outputReslt.errors[0].errorMessages);
+ console.log('---outputReslt', outputReslt, outputReslt.results[0]);
  return outputReslt;
 }
 
-module.exports = pocker;
+// module.exports = pocker;

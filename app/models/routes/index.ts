@@ -1,10 +1,17 @@
-const router = require('express').Router();
-const pockerMethods = require('../../services/pocker.ts');
+// const express = require('express');
+// const router = require('express').Router();
+// const pockerMethods = require('../../services/poker.ts');
+import express, { Router } from 'express';
+import { getRepository } from 'typeorm';
+import { pocker } from '../../services/poker';
+const router: Router = express.Router();
 
 
 router.post('/', (req, res) => {
-  console.log('---pocker', pockerMethods(req.body.hands), '---errors', pockerMethods(req.body.hands).errors);
+  console.log('---pocker', pocker(req.body.hands), '---results結果だけを取得する', pockerMethods(req.body.hands).results[0]);
   console.log('---body', req.body.hands)
 });
 
-module.exports = router;
+export default router;
+
+// module.exports = router;
