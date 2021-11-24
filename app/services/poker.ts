@@ -1,4 +1,4 @@
-export const pocker = (hands) => {
+export const poker = (hands: any) => {
   const roleRansks = [
     'ロイヤルフラッシュ',
     'ストレートフラッシュ',
@@ -13,14 +13,14 @@ export const pocker = (hands) => {
   ];
   // console.log('---input.hands', input.hands, '--nput', input)
   // const hands = input.hands;
-  const outputReslt = {
+  const outputReslt: any = {
     results: [],
     errors: []
   };
  
  // エラー処理
  //  const checkError = (hand, number) => {
-   const checkError = (hand) => {
+   const checkError = (hand: any) => {
    const comnaNum = hand.match(/,/g).length
    // カンマの数で文字の個数を検出
    const isLengthErr = comnaNum !== 4;
@@ -38,7 +38,7 @@ export const pocker = (hands) => {
  
  // エラーメッセージ作成
  //  const createErrorMsg = (hand, number, isLengthErr, isInvalidChar) => {
-   const createErrorMsg = (hand, isLengthErr, isInvalidChar) => {
+   const createErrorMsg = (hand: any, isLengthErr: any, isInvalidChar: any) => {
     const errors = [];
      // 手札が5枚ではない場合はエラー
      if (isLengthErr) {
@@ -56,12 +56,12 @@ export const pocker = (hands) => {
      if (isInvalidChar) {
        // TODO ここは条件分岐せずにそのままメッセージpushしても良いかも？
        const includeVal = errors.find(error => {
-         console.log('---error.hand', error.hand, '---hand', hand)
+        //  console.log('---error.hand', error.hand, '---hand', hand)
          return error.hand === hand
         })
-       console.log('---includeVal', includeVal)
+      //  console.log('---includeVal', includeVal)
        if (includeVal && includeVal.hand) {
-         console.log('----ダブってない？', includeVal.hand)
+        //  console.log('----ダブってない？', includeVal.hand)
          includeVal.errorMessages.push('1番目のカードの値が不正です')
        } else {
          errors.push({
@@ -79,46 +79,46 @@ export const pocker = (hands) => {
  
  // 手札を1文字目の文字列と2文字目の数値に分ける
  //  const createCharacters = (hand, number) => {
-   const createCharacters = (hand) => {
+   const createCharacters = (hand: any) => {
     const splitHands = hand.split(',')
-    const firstChars = [];
-    const secondChars = []
-    splitHands.forEach((hand, i) => {
+    const firstChars: any = [];
+    const secondChars: any = []
+    splitHands.forEach((hand: any, i: any) => {
      firstChars.push(hand.slice(0, 1));
      secondChars.push(parseInt(hand.slice(1, 2), 10));
    })
    // 小さい数字順に並び替える
-   const sortedSecondChar = secondChars.slice().sort((a, b) => a < b ? -1 : 1)
+   const sortedSecondChar = secondChars.slice().sort((a: any, b: any) => a < b ? -1 : 1)
    // checkResult(hand, number, firstChars, sortedSecondChar)
    checkResult(hand, firstChars, sortedSecondChar)
   }
  
   // 各手札の処理
   // 指定した数値が全て含まれいる
-  const includedEveryNum = (secondChars) => {
+  const includedEveryNum = (secondChars: any) => {
    const nums = [1, 10, 11, 12, 13];
-   const checkIncludeNum = (num) => secondChars.includes(num) ? num : 0;
+   const checkIncludeNum = (num: any) => secondChars.includes(num) ? num : 0;
    return nums.every(num => num === checkIncludeNum(num))
  }
  
  // 数値が連番である
- const checkSerialNumber = (secondChars) => {
-   const sameNums = [];
-   secondChars.forEach((char, i) => {
+ const checkSerialNumber = (secondChars: any) => {
+   const sameNums: any = [];
+   secondChars.forEach((char: any, i: any) => {
      if(i > 0) {
        sameNums.push(char === secondChars[i-1]+1)
      }
    })
-   return sameNums.every(num => num === true)
+   return sameNums.every((num: any) => num === true)
  }
  
  // 各役の処理
- const checkRole = (val) => {
+ const checkRole = (val: any) => {
    const fullhouse = [2, 3].every(num => val.indexOf(num) != -1)
-   const twopear = val.reduce((prev, cur) => {
+   const twopear = val.reduce((prev: any, cur: any) => {
      return prev + (cur === 2 ? 1 : 0) 
    }, 0) === 2
-   const highcard = val.every(o => o === 1)
+   const highcard = val.every((o: any) => o === 1)
    if(fullhouse) return 'フルハウス';
  
    if(twopear) return '2ペア';
@@ -129,14 +129,14 @@ export const pocker = (hands) => {
  }
  
  // 各役の処理
- const results = [];
+ const results: any = [];
  // const checkResult = (hand, number, firstChars, secondChars) => {
-   const checkResult = (hand, firstChars, secondChars) => {
-   const includeVal = results.find(result => result.hand === hand)
+   const checkResult = (hand: any, firstChars: any, secondChars: any) => {
+   const includeVal = results.find((result: any) => result.hand === hand)
    // 1文字目の文字が5枚とも同じか
-   const isEverSameChar = firstChars.every((val) => val === firstChars[0])
+   const isEverSameChar = firstChars.every((val: any) => val === firstChars[0])
    // 各役
-   const duplicatedCount = secondChars.reduce((prev, cur) => {
+   const duplicatedCount = secondChars.reduce((prev: any, cur: any) => {
      prev[cur] = prev[cur] ? ++prev[cur] : 1;
      return prev;
    }, {});
@@ -252,13 +252,13 @@ export const pocker = (hands) => {
    //     "strongest": false
    //   })
    // }
-   const uniqueResults = results.filter((result, index, array) => {
-     return array.findIndex(resultDuplicated => result.hand === resultDuplicated.hand) === index;
+   const uniqueResults = results.filter((result: any, index: any, array: any) => {
+     return array.findIndex((resultDuplicated: any) => result.hand === resultDuplicated.hand) === index;
    });
    outputReslt.results = uniqueResults;
   }
 
-  hands.forEach((hand, i) => {
+  hands.forEach((hand: any, i: any) => {
    // const number = i < 10 ? `0${i+1}` : i;
    // const hasError = checkError(hand, number);
    const hasError = checkError(hand);
@@ -267,27 +267,18 @@ export const pocker = (hands) => {
      createCharacters(hand)
    }
  })
- // console.log('---results--2', results)
  // roleRanks順に並び替える
- const orderRanks = outputReslt.results.sort((x, y) => {
+ const orderRanks = outputReslt.results.sort((x: any, y: any) => {
    return roleRansks.indexOf(x.yaku) - roleRansks.indexOf(y.yaku);
  })
- 
-//  console.log('--orderRanks', orderRanks)
  
  // // 最初の要素のstrongestだけtrueにする
  orderRanks[0].strongest = true;
  
  // // 送られてきた手札の順に最後はsortする
- const sortedResults = orderRanks.slice().sort((x, y) => {
+ const sortedResults = orderRanks.slice().sort((x: any, y: any) => {
    return hands.indexOf(x.hand) - hands.indexOf(y.hand);
  })
  outputReslt.results = sortedResults;
- 
- // console.log('---orderRanks', orderRanks);
- // ßconsole.log('---sortedResults', sortedResults);
- console.log('---outputReslt', outputReslt, outputReslt.results[0]);
  return outputReslt;
 }
-
-// module.exports = pocker;

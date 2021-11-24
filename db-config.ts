@@ -6,8 +6,8 @@ const dbConfig: PostgresConnectionOptions = {
   username: 'admin',
   password: 'admin',
   database: 'admin',
-  synchronize: true,
+  synchronize: false,
   logging: false,
-  entities: ['entities/*.ts']
+  entities: ['models/entities/*.ts']
 };
 export default dbConfig;
