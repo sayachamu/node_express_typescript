@@ -6,6 +6,7 @@ import { createConnection } from 'typeorm';
 import dbConfig from '../db-config';
 
 createConnection(dbConfig).then(async (connection) => {
+    console.log(connection)
     const app = express();
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }));
