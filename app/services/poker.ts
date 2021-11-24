@@ -160,15 +160,15 @@ export const poker = (hands: any) => {
    // ストレートフラッシュ
    // 1文字目の文字が5枚とも同じ
    // 2文字目の数字が全て連番
-   // if (isEverSameChar && isSerialNumber) {
-   //   results.push({
-   //     "requestId": `01-000002-${number}`,
-   //     "hand": hand,
-   //     "yaku": "ストレートフラッシュ",
-   //     "strongest": false
-   //   })
- 
-   // }
+   if (isEverSameChar && isSerialNumber) {
+     results.push({
+      //  "requestId": `01-000002-${number}`,
+      "requestId": `01-000002-01`,
+       "hand": hand,
+       "yaku": "ストレートフラッシュ",
+       "strongest": false
+     })
+   }
    // 4カード
    // 2文字目の数字が4個同じ
    if (role === '4カード') {
@@ -203,15 +203,15 @@ export const poker = (hands: any) => {
    // }
    // ストレート
    // 2文字目の数字が連番
-   if (isSerialNumber) {
-     results.push({
-       // "requestId": `01-000002-${number}`,
-       "requestId": '01-000002-01',
-       "hand": hand,
-       "yaku": "ストレート",
-       "strongest": false
-     })
-   }
+  //  if (isSerialNumber) {
+  //    results.push({
+  //      // "requestId": `01-000002-${number}`,
+  //      "requestId": '01-000002-01',
+  //      "hand": hand,
+  //      "yaku": "ストレート",
+  //      "strongest": false
+  //    })
+  //  }
    // 3カード
    // 2文字目の数字が同じものが3個
    // if (role === '3カード') {
@@ -273,8 +273,9 @@ export const poker = (hands: any) => {
  })
  
  // // 最初の要素のstrongestだけtrueにする
- orderRanks[0].strongest = true;
- 
+ if(orderRanks.length !== 0) {
+  orderRanks[0].strongest = true;
+ }
  // // 送られてきた手札の順に最後はsortする
  const sortedResults = orderRanks.slice().sort((x: any, y: any) => {
    return hands.indexOf(x.hand) - hands.indexOf(y.hand);
