@@ -8,10 +8,10 @@ export class Poker {
   @Column({ type: 'varchar' })
   public request_id!: string;
   
-  @PrimaryColumn({ type: 'varchar' })
+  @Column({ type: 'varchar' })
   public result!: string;
   
-  @Column({ type: 'varchar' })
+  @PrimaryColumn({ type: 'varchar' })
   public hand!: string;
 
   @CreateDateColumn()
