@@ -1,16 +1,3 @@
-enum RoleRansks {
-  RoyalFlash = 'ロイヤルフラッシュ',
-  StraightFlash = 'ストレートフラッシュ',
-  FourCard = '4カード',
-  FullHouse = 'フルハウス',
-  Flash = 'フラッシュ',
-  Straight = 'ストレート',
-  ThreeCard = '3カード',
-  TwoPair = '2ペア',
-  OnePair = '1ペア',
-  HighCard = 'ハイカード'
-}
-
 type Result = {
   requestId: string;
   hand: string;
@@ -47,7 +34,6 @@ const roleRansks = [
 
 export const poker = (inputHands: string[]) => {
   const hands = [...new Set(inputHands)];
-  // console.log('---hands', hands)
   const outputReslt: OutputResult = {
     results: [],
     errors: []
@@ -55,10 +41,8 @@ export const poker = (inputHands: string[]) => {
  
  // エラー処理
  const checkError = (hand: string, id: string) => {
-  // const redExpConma: id = hand.match(/,/g).length;
   const redExpConmas = hand.match(/,/g);
   const comnaNum = redExpConmas !== null && redExpConmas.length;
-  // console.log('---comnaNum', comnaNum)
    // カンマの数で文字の個数を検出
    const isLengthErr = comnaNum !== 4;
    // 1文字目が文字、2文字目が数値のチェック
@@ -95,8 +79,7 @@ export const poker = (inputHands: string[]) => {
          includeVal.errorMessages.push('1番目のカードの値が不正です')
        } else {
          errors.push({
-           // "requestId": `01-000002-${id}`,
-           "requestId": '01-000002-03',
+           "requestId": `01-000002-${id}`,
            "hand": hand,
            "errorMessages": [
              "手札は5枚入力してください"
@@ -104,14 +87,11 @@ export const poker = (inputHands: string[]) => {
          })
        }
      }
-    // ('---errors入れるとこ',errors)
      outputReslt.errors = errors;
   }
  
  // 手札を1文字目の文字列と2文字目の数値に分ける
- //  const createCharacters = (hand, id) => {
    const createCharacters = (hand: string, id: string): boolean => {
-    // console.log('---createCharactersが呼ばれた数')
     const splitHands = hand.split(',')
     const firstChars: Suits = [];
     const secondChars: Roles = []
@@ -121,7 +101,6 @@ export const poker = (inputHands: string[]) => {
    })
    // 小さい数字順に並び替える
    const sortedSecondChar = secondChars.slice().sort((a, b) => a < b ? -1 : 1)
-  //  console.log('----checkResultに渡す引数', hand, id, firstChars, sortedSecondChar)
    return checkResult(hand, id, firstChars, sortedSecondChar);
   }
  
@@ -163,7 +142,6 @@ export const poker = (inputHands: string[]) => {
   // 各役の処理
   const results: Result[] = [];
   const checkResult = (hand: string, id: string, firstChars: Suits, secondChars: Roles): boolean => {
-    // console.log('---checkResultが呼ばれた数')
   // 1文字目の文字が5枚とも同じか
   const isEverSameChar = firstChars.every((val) => val === firstChars[0])
   // 各役
@@ -192,7 +170,6 @@ export const poker = (inputHands: string[]) => {
   // 1文字目の文字が5枚とも同じ
   // 2文字目の数字が全て連番
   if (isEverSameChar && isSerialNumber) {
-    // console.log('---ストレートフラッシュ')
     results.push({
     "requestId": `01-000002-${id}`,
       "hand": hand,
@@ -204,7 +181,6 @@ export const poker = (inputHands: string[]) => {
   // 4カード
   // 2文字目の数字が4個同じ
   if (role === '4カード') {
-  // console.log('---4カード')
     results.push({
     "requestId": `01-000002-${id}`,
       "hand": hand,
@@ -239,8 +215,7 @@ export const poker = (inputHands: string[]) => {
   // 2文字目の数字が連番
   if (isSerialNumber) {
     results.push({
-      // "requestId": `01-000002-${id}`,
-      "requestId": '01-000002-01',
+      "requestId": `01-000002-${id}`,
       "hand": hand,
       "yaku": "ストレート",
       "strongest": false
@@ -297,35 +272,28 @@ export const poker = (inputHands: string[]) => {
   for(const [i,  hand] of hands.entries()) {
     const id = i < 10 ? `0${i+1}` : `${i}`;
     const hasError = checkError(hand, id);
-    // console.log('--エラー前hand', hand, '---i', i)
     if(hasError) {
       break;
     }
-    // console.log('--hand', hand, '---i', i)
     const resHand: boolean = createCharacters(hand, id);
     if(!resHand) {
-      // console.log('----resHand')
       break;
     }
-    // console.log('--ココ入ってないの？results', results)
-    // outputReslt.results = results;
   }
-  // console.log('--ココ入ってないの？---2results', results)
   outputReslt.results = results;
  // roleRanks順に並び替える
  const orderRanks = outputReslt.results.sort((x, y) => {
   return roleRansks.indexOf(x.yaku) - roleRansks.indexOf(y.yaku);
  })
  
- // // 最初の要素のstrongestだけtrueにする
+ // 最初の要素のstrongestだけtrueにする
  if(orderRanks.length !== 0) {
   orderRanks[0].strongest = true;
  }
- // // 送られてきた手札の順に最後はsortする
+ // 送られてきた手札の順に最後はsortする
  const sortedResults = orderRanks.slice().sort((x, y) => {
    return hands.indexOf(x.hand) - hands.indexOf(y.hand);
  })
  outputReslt.results = sortedResults;
- // console.log('---outputReslt', outputReslt)
  return outputReslt;
 }

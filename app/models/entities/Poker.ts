@@ -16,10 +16,4 @@ export class Poker {
 
   @CreateDateColumn()
   timestamp!: string;
-
-  // constructor(request_id: string, hand: string, result: string,) {
-  //   this.request_id = request_id;
-  //   this.hand = hand;
-  //   this.result = result;
-  // }
 }
