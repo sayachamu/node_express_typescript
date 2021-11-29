@@ -5,6 +5,7 @@
   "main": "app.ts",
   "type": "module",
   "jest": {
+    "testPathIgnorePatterns": ["<rootDir>/app/models/entities"],
     "moduleFileExtensions": [
       "ts",
       "js"
@@ -14,11 +15,10 @@
     },
     "globals": {
       "ts-jest": {
-        "tsConfig": "tsconfig.json"
+        "tsConfig": "<rootDir>/tsconfig.json"
       }
     },
     "testMatch": [
-      "**/__tests__/**/*.+(ts|tsx|js)",
       "**/?(*.)+(spec|test).+(ts|tsx|js)"
     ]
   },
